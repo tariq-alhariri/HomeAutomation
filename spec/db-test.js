@@ -31,21 +31,21 @@ describe('Persistent Node user Server', function() {
 
   it('Should insert user\'s data to the DB', function(done) {
     // Post the user to the user server.
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:3000/classes/users',
-      json: {}
-    }, function () {
-        // Now if we look in the database, we should find the
-        // new user there.
-        var queryString = 'SELECT * FROM user';
-        var queryArgs = [];
+    // request({
+    //   method: 'POST',
+    //   uri: 'http://127.0.0.1:????',
+    //   json: {}
+    // }, function () {
+    //     // Now if we look in the database, we should find the
+    //     // new user there.
+    //     var queryString = 'SELECT * FROM user';
+    //     var queryArgs = [];
 
-        dbConnection.query(queryString, queryArgs, function(err, results) {
-          // Should have one result:
-          expect(results.length).to.equal(1);
-          done();
-        });
-      });
+    //     dbConnection.query(queryString, queryArgs, function(err, results) {
+    //       // Should have one result:
+    //       expect(results.length).to.equal(1);
+    //       done();
+    //     });
+    //   });
   });
 });
