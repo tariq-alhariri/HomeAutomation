@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Component, AppRegistry, TouchableHighlight, But
 // import ImageButton from "react-native-img-button";
 // const login = import('./views/login.js');
 import Login from './src/Login';
+import Login from './src/Signup';
 
 export default class App extends React.Component {
   log(){
