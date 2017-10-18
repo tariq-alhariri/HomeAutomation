@@ -3,6 +3,8 @@ import React from 'react';
 import { StyleSheet, Text, View, Component, AppRegistry, TouchableHighlight, Button, Image,ontouchend, button, Navigator } from 'react-native';
 // import ImageButton from "react-native-img-button";
 // const login = import('./views/login.js');
+import Login from './src/Login';
+import Login from './src/Signup';
 
 export default class App extends React.Component {
   log(){
@@ -10,9 +12,7 @@ export default class App extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.largeText}>Hellow world!</Text>
-      </View>
+    <Login />
     );
   }
 }
