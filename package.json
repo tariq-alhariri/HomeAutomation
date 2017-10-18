@@ -1,0 +1,17 @@
+{
+  "name": "thesis",
+  "version": "0.0.0",
+  "description": "Hello Expo!",
+  "author": null,
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "expo": "^21.0.0",
+    "mocha": "^4.0.1",
+    "mysql": "^2.15.0",
+    "react": "16.0.0-alpha.12",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-21.0.2.tar.gz",
+    "request": "^2.83.0"
+  }
+}
