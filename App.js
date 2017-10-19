@@ -1,34 +1,35 @@
-
 import React from 'react';
-import { StyleSheet, Text, View, Component, AppRegistry, TouchableHighlight, Button, Image,ontouchend, button, Navigator } from 'react-native';
-// import ImageButton from "react-native-img-button";
-// const login = import('./views/login.js');
+import {
+    StyleSheet,
+    Text,
+    View,
+    Component,
+    AppRegistry,
+    TouchableHighlight,
+    Button,
+    Image,
+    ontouchend,
+    button,
+    Navigator
+} from 'react-native';
+
+import Login from './src/Login';
+//import Signup from './src/Signup';
 
 export default class App extends React.Component {
-  log(){
-    console.log("Hello World!")
-  };
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.largeText}>Hellow world!</Text>
-      </View>
-    );
-  }
+    render() {
+        return (
+            <Login />
+            //<Signup />
+        );
+    }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'gray',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  largeText:{
-  	fontSize: 40,
-  	fontWeight: 'bold',
-  	fontStyle: 'italic',
-  	paddingLeft: 20,
-  	paddingRight: 20
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 });
