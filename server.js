@@ -37,9 +37,14 @@ app.get('/connect',(req,res)=>{
 })
 //turn on the lights
 app.get('/on',(req,res)=>{
-	console.log('hiiii')
 	connect.write(new Buffer('1', 'utf-8'),function(){});
-	res.send('hiiioii')
+	res.send('on')
+
+})
+//turn off the lights 
+app.get('/off',(req,res)=>{
+	connect.write(new Buffer('0', 'utf-8'),function(){});
+	res.send('off')
 
 })
 
@@ -49,5 +54,5 @@ var port = process.env.PORT||8000;
 app.listen(port,(err) =>{
 	if(err)
 		throw err
-	console.log('listening on 8080')
+	console.log('listening on 8000')
 })
