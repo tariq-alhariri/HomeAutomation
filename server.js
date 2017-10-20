@@ -2,7 +2,7 @@
 var express =require('express');
 var app=express();
 var bluetooth = require('node-bluetooth');
-
+var db=require('./db/dbConnection')
 //scan in bluetooth 
 app.get('/scan',(req,res) =>{
 	const devices={
@@ -31,17 +31,25 @@ app.get('/connect',(req,res)=>{
 			connect=connection
 			//connection.write('1', 'utf-8');
 			res.send('doneeee')
-
 		}
 	})
 })
 //turn on the lights
 app.get('/on',(req,res)=>{
-	console.log('hiiii')
 	connect.write(new Buffer('1', 'utf-8'),function(){});
-	res.send('hiiioii')
+	res.send('on')
+})
+
+//turn off the lights 
+app.get('/off',(req,res)=>{
+	connect.write(new Buffer('0', 'utf-8'),function(){});
+	res.send('off')
 
 })
+//sign up user
+app.post('/signup',(req,res)=>{
+
+});
 
 //specify port number
 var port = process.env.PORT||8000;
@@ -49,5 +57,5 @@ var port = process.env.PORT||8000;
 app.listen(port,(err) =>{
 	if(err)
 		throw err
-	console.log('listening on 8080')
+	console.log('listening on 8000')
 })
