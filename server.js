@@ -1,6 +1,6 @@
-//require express 
-var express =require('express');
-var app=express();
+//require express
+var express = require('express');
+var app = express();
 var bluetooth = require('node-bluetooth');
 var db=require('./db/dbConnection')
 //scan in bluetooth 
@@ -59,3 +59,4 @@ app.listen(port,(err) =>{
 		throw err
 	console.log('listening on 8000')
 })
+
