@@ -8,16 +8,16 @@ export default () => (
     <Router>
         <Scene Key="root">
             <Scene
-                Key="Login"
+                Key="login"
                 component={Login}
-                title="login page"
+                title="Login"
                 hideNavBar
             />
             <Scene
-                Key="Signup"
+                Key="signup"
                 component={Signup}
                 initial={true}
-                title="signup page "
+                title="Signup"
                 hideNavBar
             />
         </Scene>
