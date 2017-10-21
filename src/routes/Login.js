@@ -9,20 +9,17 @@ import {
     Button,
     KeyboardAvoidingView
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-
 export default class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props)
         this.state = {
             username: '',
             password: ''
         };
     }
-
-    async onSubmit() {
+    async Login() {
         try {
-            let response = await fetch('192.168.8.115/login', {
+            let response = await fetch('http://192.168.8.115:8000/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -61,7 +58,7 @@ export default class Login extends React.Component {
                         returnKeyType="next"
                         onChangeText={value =>
                             this.setState({ username: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
 
@@ -71,19 +68,19 @@ export default class Login extends React.Component {
                         returnKeyType="go"
                         onChangeText={value =>
                             this.setState({ password: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
-
                     <TouchableOpacity
                         style={styles.buttonContainer}
-                        onPress={this.onSubmit.bind(this)}
+                        onPress={() => this.Login()}
                     >
-                        <Text style={styles.buttonText}>Login</Text>
+                        <Text style={styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
+
                     <Button
                         title="Go to Signup"
-                        onPress={() => Actions.Signup({ Signup })}
+                        onPress={() => this.props.changeV('Signup')}
                     />
                 </View>
             </KeyboardAvoidingView>
@@ -118,8 +115,6 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        width: 200,
-        textAlign: 'center',
         marginBottom: 20,
         paddingHorizontal: 10,
         backgroundColor: '#E0FFFF',
