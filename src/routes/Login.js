@@ -7,22 +7,21 @@ import {
     TouchableOpacity,
     TextInput,
     Button,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-
 export default class Login extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props)
         this.state = {
             username: '',
             password: ''
         };
     }
-
-    async onSubmit() {
+    async Login() {
         try {
-            let response = await fetch('192.168.8.115/login', {
+
+            let response = await fetch('http://192.168.8.128:8000/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -31,12 +30,19 @@ export default class Login extends React.Component {
                 body: JSON.stringify({
                     user: {
                         username: this.state.username,
-                        passwors: this.state.password
+                        password: this.state.password
                     }
                 })
             });
 
             let res = await response.text();
+            console.log(res)
+            if(res == "exist"){
+                Alert.alert("Profile")
+                console.log("exist")
+            }else{
+                Alert.alert("user name or password incorrect")           
+            }
         } catch (errors) {
             console.log('catch errors' + errors);
         }
@@ -59,31 +65,33 @@ export default class Login extends React.Component {
                     <TextInput
                         placeholder="username"
                         returnKeyType="next"
+                        validators="required"
                         onChangeText={value =>
                             this.setState({ username: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
 
                     <TextInput
                         placeholder="password"
                         secureTextEntry={true}
+                        validators="required"
                         returnKeyType="go"
                         onChangeText={value =>
                             this.setState({ password: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
-
                     <TouchableOpacity
                         style={styles.buttonContainer}
-                        onPress={this.onSubmit.bind(this)}
+                        onPress={() => this.Login()}
                     >
-                        <Text style={styles.buttonText}>Login</Text>
+                        <Text style={styles.buttonText}>Submit</Text>
                     </TouchableOpacity>
+
                     <Button
                         title="Go to Signup"
-                        onPress={() => Actions.Signup({ Signup })}
+                        onPress={() => this.props.changeV('Signup')}
                     />
                 </View>
             </KeyboardAvoidingView>
@@ -118,8 +126,6 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
-        width: 200,
-        textAlign: 'center',
         marginBottom: 20,
         paddingHorizontal: 10,
         backgroundColor: '#E0FFFF',
