@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     TextInput,
     Button,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
 export default class Login extends React.Component {
@@ -19,7 +20,8 @@ export default class Login extends React.Component {
     }
     async Login() {
         try {
-            let response = await fetch('http://192.168.8.115:8000/login', {
+
+            let response = await fetch('http://192.168.8.128:8000/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -28,12 +30,19 @@ export default class Login extends React.Component {
                 body: JSON.stringify({
                     user: {
                         username: this.state.username,
-                        passwors: this.state.password
+                        password: this.state.password
                     }
                 })
             });
 
             let res = await response.text();
+            console.log(res)
+            if(res == "exist"){
+                Alert.alert("Profile")
+                console.log("exist")
+            }else{
+                Alert.alert("user name or password incorrect")           
+            }
         } catch (errors) {
             console.log('catch errors' + errors);
         }
@@ -56,6 +65,7 @@ export default class Login extends React.Component {
                     <TextInput
                         placeholder="username"
                         returnKeyType="next"
+                        validators="required"
                         onChangeText={value =>
                             this.setState({ username: value })}
                         placeholderTextColor="#800080"
@@ -65,6 +75,7 @@ export default class Login extends React.Component {
                     <TextInput
                         placeholder="password"
                         secureTextEntry={true}
+                        validators="required"
                         returnKeyType="go"
                         onChangeText={value =>
                             this.setState({ password: value })}
