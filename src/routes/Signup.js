@@ -6,23 +6,23 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
+    Button,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 export default class Signup extends React.Component {
     constructor() {
-        super();
+        super()
         this.state = {
             username: '',
             password: '',
             image: ''
         };
     }
-
-    async onSubmit() {
+    async Signup() {
         try {
-            let response = await fetch('192.168.8.115/signup', {
+            let response = await fetch('http://192.168.8.128:8000/signup', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -31,13 +31,23 @@ export default class Signup extends React.Component {
                 body: JSON.stringify({
                     user: {
                         username: this.state.username,
-                        passwors: this.state.password,
+                        password: this.state.password,
                         email: this.state.email
                     }
                 })
             });
 
             let res = await response.text();
+            console.log(res)
+            res=JSON.parse(res)
+            if(res == "exist"){
+                Alert.alert("this user is already exist")
+                
+            }else{
+                Alert.alert("Done ,, Now you can go to Login")
+                return this.props.changeV('Login') 
+                
+            }
         } catch (errors) {
             console.log('catch errors' + errors);
         }
@@ -60,42 +70,43 @@ export default class Signup extends React.Component {
                     <TextInput
                         placeholder="username"
                         returnKeyType="next"
+                        validators="required"
                         onChangeText={value =>
                             this.setState({ username: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
 
                     <TextInput
                         placeholder="password"
                         secureTextEntry={true}
+                        validators="required"
                         returnKeyType="next"
                         onChangeText={value =>
                             this.setState({ password: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
 
                     <TextInput
                         placeholder="email"
                         returnKeyType="go"
+                        validators="required"
                         onChangeText={value => this.setState({ email: value })}
-                        placeholderTextColor="#FFB6C1"
+                        placeholderTextColor="#800080"
                         style={styles.input}
                     />
+                    <TouchableOpacity
+                        style={styles.buttonContainer}
+                        onPress={() => this.Signup()}
+                    >
+                        <Text style={styles.buttonText}>Submit</Text>
+                    </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={styles.buttonContainer}
-                        onPress={this.onSubmit.bind(this)}
-                    >
-                        <Text style={styles.buttonText}>Signup</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={styles.buttonContainer}
-                        onPress={() => Actions.Login({})}
-                    >
-                        <Text style={styles.buttonText}>Go back to login </Text>
-                    </TouchableOpacity>
+                    <Button
+                    title="Go back to Login"
+                    onPress={() => this.props.changeV('Login')}
+                />
                 </View>
             </KeyboardAvoidingView>
         );
