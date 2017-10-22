@@ -64,20 +64,20 @@ app.get('/connect',(req,res)=>{
 			console.log('connected')
 			connect=connection
 			//connection.write('1', 'utf-8');
-			res.send('doneeee')
+			res.send(JSON.stringify('doneeee'))
 		}
 	})
 })
 //turn on the lights
 app.get('/on',(req,res)=>{
 	connect.write(new Buffer('1', 'utf-8'),function(){});
-	res.send('on')
+	res.send(JSON.stringify('on'))
 })
 
 //turn off the lights 
 app.get('/off',(req,res)=>{
 	connect.write(new Buffer('0', 'utf-8'),function(){});
-	res.send('off')
+	res.send(JSON.stringify('off'))
 })
 //signup user
 app.post('/signup',(req,res)=>{
@@ -133,6 +133,9 @@ app.post('/login',(req,res)=>{
 			return res.send(JSON.stringify("not exist"));
 		}
 	})
+})
+app.get('/user',(req,res) =>{
+	return res.send(JSON.stringify(req.session.username))
 })
 //specify port number
 var port = process.env.PORT||8000;
