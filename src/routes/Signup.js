@@ -6,6 +6,8 @@ import {
     Image,
     TextInput,
     TouchableOpacity,
+    Button,
+    Alert,
     KeyboardAvoidingView
 } from 'react-native';
 
@@ -20,7 +22,7 @@ export default class Signup extends React.Component {
     }
     async Signup() {
         try {
-            let response = await fetch('http://192.168.8.115:8000/signup', {
+            let response = await fetch('http://192.168.8.128:8000/signup', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -29,13 +31,23 @@ export default class Signup extends React.Component {
                 body: JSON.stringify({
                     user: {
                         username: this.state.username,
-                        passwors: this.state.password,
+                        password: this.state.password,
                         email: this.state.email
                     }
                 })
             });
 
             let res = await response.text();
+            console.log(res)
+            res=JSON.parse(res)
+            if(res == "exist"){
+                Alert.alert("this user is already exist")
+                
+            }else{
+                Alert.alert("Done ,, Now you can go to Login")
+                return this.props.changeV('Login') 
+                
+            }
         } catch (errors) {
             console.log('catch errors' + errors);
         }
@@ -58,6 +70,7 @@ export default class Signup extends React.Component {
                     <TextInput
                         placeholder="username"
                         returnKeyType="next"
+                        validators="required"
                         onChangeText={value =>
                             this.setState({ username: value })}
                         placeholderTextColor="#800080"
@@ -67,6 +80,7 @@ export default class Signup extends React.Component {
                     <TextInput
                         placeholder="password"
                         secureTextEntry={true}
+                        validators="required"
                         returnKeyType="next"
                         onChangeText={value =>
                             this.setState({ password: value })}
@@ -77,6 +91,7 @@ export default class Signup extends React.Component {
                     <TextInput
                         placeholder="email"
                         returnKeyType="go"
+                        validators="required"
                         onChangeText={value => this.setState({ email: value })}
                         placeholderTextColor="#800080"
                         style={styles.input}
