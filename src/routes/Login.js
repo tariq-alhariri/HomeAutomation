@@ -37,7 +37,8 @@ export default class Login extends React.Component {
 
             let res = await response.text();
             console.log(res)
-            if(res == "exist"){
+            res=JSON.parse(res)
+            if(res == "done"){
                 Alert.alert("Profile")
                 console.log("exist")
             }else{
