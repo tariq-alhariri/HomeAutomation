@@ -17,13 +17,24 @@ export default class Profile extends React.Component {
        	init:this.getCureentUser(),
        	name:"",
        	turnon:"",
-       	connect:""
+       	connect:"",
+        logout : ""
        }
     }
+    async logout() {
+        try {
+                 let response = await fetch('http://192.168.2.46:8000/logout');
+                 let responseJson = await response.json();
+                 this.setState({logout:responseJson})
+                 return this.props.changeV('Login');
+           } catch(error) {
+             console.error(error);
+             }
+    } 
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.2.49:8000/user');
+			     let response = await fetch('http://192.168.2.46:8000/user');
 			     let responseJson = await response.json();
 			     this.setState({name:responseJson})
 		   } catch(error) {
@@ -32,7 +43,7 @@ export default class Profile extends React.Component {
     } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.2.49:8000/connect');
+			     let response = await fetch('http://192.168.2.46:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -44,7 +55,7 @@ export default class Profile extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.2.49:8000/on');
+			     let response = await fetch('http://192.168.2.46:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -53,7 +64,7 @@ export default class Profile extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.2.49:8000/off');
+			     let response = await fetch('http://192.168.2.46:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
@@ -85,6 +96,15 @@ export default class Profile extends React.Component {
                  <Button
                     title="Turn off lights"
                     onPress={() => this.turnoff()}
+                />
+                <Button
+                    title="Log out"
+                    onPress={() => this.logout()}
+                />
+
+                 <Button
+                    title="Go To map"
+                    onPress={() => this.props.changeV('Mape')}
                 />
             </KeyboardAvoidingView>
         );

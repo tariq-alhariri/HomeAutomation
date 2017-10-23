@@ -83,7 +83,7 @@ app.get('/off',(req,res)=>{
 app.post('/signup',(req,res)=>{
 	console.log("comming data =======>", req.body.user)
 	//checck if user allready exist  
-	var sql="select * from user1 where name='"+req.body.user.username+"';";
+	var sql="select * from user where name='"+req.body.user.username+"';";
 	db.query(sql,function(err,result){
 		if(err){
 			throw err
@@ -95,7 +95,7 @@ app.post('/signup',(req,res)=>{
 			return res.send(JSON.stringify("exist"));
 		}
 		//else insert it into database
-		var sql="insert into user1 (name,passward) values ('"+req.body.user.username+"',"+req.body.user.password+");";
+		var sql="insert into user (name,password) values ('"+req.body.user.username+"','"+req.body.user.password+"');";
 		db.query(sql,function(err,result){
 			if(err){
 				throw err
@@ -110,7 +110,7 @@ app.post('/signup',(req,res)=>{
 app.post('/login',(req,res)=>{
 	console.log(req.body)
 	//check if username exist
-	var sql="select * from user1 where name='"+req.body.user.username+"';"
+	var sql="select * from user where name='"+req.body.user.username+"';"
 	db.query(sql,(err,result)=>{
 		console.log("the result is ====> ",result)
 		if(err)
@@ -118,11 +118,11 @@ app.post('/login',(req,res)=>{
 		if(result.length){
 			//check password
 			console.log(req.body.user.password)
-			console.log("resullllt",result[0].passward)
-			if(result[0].passward==req.body.user.password){
+			console.log("resullllt",result[0].password)
+			if(result[0].password==req.body.user.password){
 				//create session 
 				req.session.username=result[0].name;
-				req.session.password=result[0].passward;
+				req.session.password=result[0].password;
 				console.log("the session is ===> ",req.session)
 				return res.send(JSON.stringify("done"));
 			}else{
