@@ -94,15 +94,20 @@ app.post('/signup',(req,res)=>{
 			res.status(200)
 			return res.send(JSON.stringify("exist"));
 		}
-		//else insert it into database
-		var sql="insert into user (name,password) values ('"+req.body.user.username+"','"+req.body.user.password+"');";
-		db.query(sql,function(err,result){
-			if(err){
-				throw err
-			}
-			res.status(200);
-			return res.send(JSON.stringify("inserted"));
+		//hashing password ....
+		bcrypt.hash(req.bodyParserdy.user.password, null, null, function(err, hash){
+			//else insert it into database
+			// var sql="insert into user (name,password) values ('"+req.body.user.username+"','"+req.body.user.password+"');";
+			var sql="insert into user (name,password,email,image,api) values ('"+req.body.user.username+"','"+hash+"','"+req.body.user.email+"','"+req.body.user.image+"','"+req.body.user.api+"');";
+			db.query(sql,function(err,result){
+				if(err){
+					throw err
+				}
+				res.status(200);
+				return res.send(JSON.stringify("inserted"));
+			})
 		})
+
 		
 	})
 });
@@ -119,15 +124,19 @@ app.post('/login',(req,res)=>{
 			//check password
 			console.log(req.body.user.password)
 			console.log("resullllt",result[0].password)
-			if(result[0].password==req.body.user.password){
-				//create session 
-				req.session.username=result[0].name;
-				req.session.password=result[0].password;
-				console.log("the session is ===> ",req.session)
-				return res.send(JSON.stringify("done"));
-			}else{
-				return res.send(JSON.stringify("not exist"));
-			}
+			bcrypt.compare(req.body.user.password, result[0].password, function(err, hash){
+				// if(result[0].password==req.body.user.password){
+				if(hash){
+					//create session 
+					req.session.username=result[0].name;
+					req.session.password=result[0].password;
+					console.log("the session is ===> ",req.session)
+					return res.send(JSON.stringify("done"));
+				}else{
+					return res.send(JSON.stringify("not exist"));
+				}
+			})
+			
 
 		}else{
 			return res.send(JSON.stringify("not exist"));
