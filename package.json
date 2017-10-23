@@ -18,8 +18,11 @@
   "devDependencies": {
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
+    "chai": "^4.1.2",
     "jest": "21.2.1",
-    "react-test-renderer": "16.0.0-beta.5"
+    "mocha": "^4.0.1",
+    "react-test-renderer": "16.0.0-beta.5",
+    "require": "^2.4.20"
   },
   "jest": {
     "preset": "react-native"

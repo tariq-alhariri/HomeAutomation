@@ -25,9 +25,17 @@ export default class Profile extends React.Component {
     //detect motion 
     async motion() {
         try {
-                 let response = await fetch('http://192.168.2.46:8000/motion');
+                 let response = await fetch('http://192.168.8.120:8000/motion');
                  let responseJson = await response.json();
+                 //responseJson=JSON.parse(responseJson)
+                 
+                 if(responseJson=='n'){
+                    Alert.alert("No motion in room")
+                 }else{
+                    Alert.alert("there is motion in room ")
+                 }
                  this.setState({motion:responseJson})
+               //  res=JSON.parse(res)
            } catch(error) {
              console.error(error);
              }
@@ -35,7 +43,7 @@ export default class Profile extends React.Component {
     //logout
     async logout() {
         try {
-                 let response = await fetch('http://192.168.2.46:8000/logout');
+                 let response = await fetch('http://192.168.8.120:8000/logout');
                  let responseJson = await response.json();
                  this.setState({logout:responseJson})
                  return this.props.changeV('Login');
@@ -46,7 +54,7 @@ export default class Profile extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.2.46:8000/user');
+			     let response = await fetch('http://192.168.8.120:8000/user');
 			     let responseJson = await response.json();
 			     this.setState({name:responseJson})
 		   } catch(error) {
@@ -55,7 +63,7 @@ export default class Profile extends React.Component {
     } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/connect');
+			     let response = await fetch('http://192.168.8.120:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -67,7 +75,7 @@ export default class Profile extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/on');
+			     let response = await fetch('http://192.168.8.120:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -76,7 +84,7 @@ export default class Profile extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/off');
+			     let response = await fetch('http://192.168.8.120:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
@@ -107,11 +115,11 @@ export default class Profile extends React.Component {
                 />
                  <Button
                     title="Turn off lights"
-                    onPress={() => this.motion()}
+                    onPress={() => this.turnoff()}
                 />
                  <Button
                     title="Detect motion in my room"
-                    onPress={() => this.logout()}
+                    onPress={() => this.motion()}
                 />
                 <Button
                     title="Log out"
