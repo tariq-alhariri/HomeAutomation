@@ -10,6 +10,7 @@ import {
 import Login from './src/routes/Login';
 import Signup from './src/routes/Signup';
 import Profile from './src/routes/profile';
+import Mape from './src/routes/map';
 // export default class App () => {
 //     this.state={component:'Signup'};
 //     render(){
@@ -44,6 +45,8 @@ export default class App extends React.Component {
           return <Login changeV={this.changestate.bind(this)} />;
       } else if (this.state.component=='Profile') {
           return <Profile changeV={this.changestate.bind(this)} />;
+      } else if(this.state.component == 'Mape') {
+          return <Mape changeV={this.changestate.bind(this)} />;
       }
   }
 }
