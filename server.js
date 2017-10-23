@@ -64,20 +64,20 @@ app.get('/connect',(req,res)=>{
 			console.log('connected')
 			connect=connection
 			//connection.write('1', 'utf-8');
-			res.send('doneeee')
+			res.send(JSON.stringify('doneeee'))
 		}
 	})
 })
 //turn on the lights
 app.get('/on',(req,res)=>{
 	connect.write(new Buffer('1', 'utf-8'),function(){});
-	res.send('on')
+	res.send(JSON.stringify('on'))
 })
 
 //turn off the lights 
 app.get('/off',(req,res)=>{
 	connect.write(new Buffer('0', 'utf-8'),function(){});
-	res.send('off')
+	res.send(JSON.stringify('off'))
 })
 //signup user
 app.post('/signup',(req,res)=>{
@@ -107,20 +107,24 @@ app.post('/signup',(req,res)=>{
 	})
 });
 //login user 
-app.post('login',(req,res)=>{
-	console.log("hiiiiiii")
+app.post('/login',(req,res)=>{
+	console.log(req.body)
 	//check if username exist
 	var sql="select * from user1 where name='"+req.body.user.username+"';"
 	db.query(sql,(err,result)=>{
+		console.log("the result is ====> ",result)
 		if(err)
-			throw err
+			console.log("errrrror")
 		if(result.length){
 			//check password
-			if(result[0].passward=req.body.user.password){
+			console.log(req.body.user.password)
+			console.log("resullllt",result[0].passward)
+			if(result[0].passward==req.body.user.password){
 				//create session 
-				req.session.username=result[0].username;
-				req.session.password=result[0].password;
-				return res.send(JSON("done"));
+				req.session.username=result[0].name;
+				req.session.password=result[0].passward;
+				console.log("the session is ===> ",req.session)
+				return res.send(JSON.stringify("done"));
 			}else{
 				return res.send(JSON.stringify("not exist"));
 			}
@@ -129,6 +133,9 @@ app.post('login',(req,res)=>{
 			return res.send(JSON.stringify("not exist"));
 		}
 	})
+})
+app.get('/user',(req,res) =>{
+	return res.send(JSON.stringify(req.session.username))
 })
 //specify port number
 var port = process.env.PORT||8000;

@@ -21,7 +21,7 @@ export default class Login extends React.Component {
     async Login() {
         try {
 
-            let response = await fetch('http://192.168.8.128:8000/login', {
+            let response = await fetch('http://192.168.2.49:8000/login', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -37,11 +37,12 @@ export default class Login extends React.Component {
 
             let res = await response.text();
             console.log(res)
-            if(res == "exist"){
-                Alert.alert("Profile")
+            res=JSON.parse(res)
+            if(res == "done"){
+                return this.props.changeV('Profile') 
                 console.log("exist")
             }else{
-                Alert.alert("user name or password incorrect")           
+                Alert.alert("username or password incorrect")           
             }
         } catch (errors) {
             console.log('catch errors' + errors);
