@@ -40,6 +40,7 @@ app.use(session({
 
 
 
+
 //scan in bluetooth 
 app.get('/scan',(req,res) =>{
 	const devices={
@@ -67,9 +68,42 @@ app.get('/connect',(req,res)=>{
 			console.log('connected')
 			connect=connection
 			//connection.write('1', 'utf-8');
-			res.send(JSON.stringify('doneeee'))
+			res.send(JSON.stringify('doneeee'));
 		}
 	})
+})
+
+// handle motion sensor
+app.get('/motion',(req,res) =>{
+	var buf= new Buffer('d', 'utf-8')
+	var x="dd";
+	console.log("motion")
+	connect.write(new Buffer(buf),function(){
+		connect.on('data', (buffer) => {
+		   
+		console.log("hiiiiiii")
+		//console.log(buffer)
+		buf=buffer.toString('utf-8')
+     console.log(buffer.toString('utf-8'));
+    // console.log(str.split('/n', 0, 2))
+    // x=buffer.toString();
+    // res.set('Content-Type', 'text/plain');
+    // res.status(200);
+    // return res.send(JSON.stringify("ffff"))
+    
+    // //return res.send(JSON.stringify(x))
+    // //console.log("the x is===> ",x)
+  });
+	});
+	//setTimeout(function(){}, 2000);
+	
+	//setTimeout(function(){return res.send(JSON.stringify(x))}, 2000);
+ 	//return res.send();
+ setTimeout(function(){
+ 	console.log("hhhhhhh",buf.toString("utf-8")); 
+ 	return res.json(buf.toString("utf-8"))
+ }, 1000);
+
 })
 //turn on the lights
 app.get('/on',(req,res)=>{
@@ -80,6 +114,7 @@ app.get('/on',(req,res)=>{
 //turn off the lights 
 app.get('/off',(req,res)=>{
 	connect.write(new Buffer('0', 'utf-8'),function(){});
+
 	res.send(JSON.stringify('off'))
 })
 //signup user
