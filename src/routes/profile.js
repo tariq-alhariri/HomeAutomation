@@ -128,7 +128,7 @@ export default class Profile extends React.Component {
 
                  <Button
                     title="Go To map"
-                    onPress={() => this.props.changeV('Mape')}
+                    onPress={() => this.props.changeV('Map')}
                 />
             </KeyboardAvoidingView>
         );
