@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     Text,
+    KeyboardAvoidingView,
     Image
 
     
@@ -21,18 +22,23 @@ export default class Profile extends React.Component {
 
     render() {
         return (
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
                         source={require('./Smart.png')}
                     />
+                    </View>
+
                
                 <Text style={styles.header}>
                     
                     setting hereeee but not ready yet
                 </Text>
 
-                </View>
+                </KeyboardAvoidingView>
+
             
         )
     }

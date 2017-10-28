@@ -3,6 +3,7 @@ import {
     StyleSheet,
     View,
     Text,
+    KeyboardAvoidingView,
     Image
 
     
@@ -21,19 +22,20 @@ export default class ChatBox extends React.Component {
 
     render() {
         return (
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
                         source={require('./Smart.png')}
                     />
-               
-                
+                </View>
                 <Text style={styles.header}>
-                    
-                    Welcome Contact with all here
+                    {' '}
+                    Welcome to chatBox
                 </Text>
 
-                </View>
+            
+            </KeyboardAvoidingView>
             
         )
     }

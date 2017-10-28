@@ -7,6 +7,7 @@ import {
     TouchableOpacity,
     TextInput,
     Button,
+    KeyboardAvoidingView,
     Alert
 } from 'react-native';
 
@@ -88,44 +89,49 @@ export default class Controle extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.logoContainer}>
-                    <Image
-                        style={styles.logo}
-                        source={require('./Smart.png')}
-                    />
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <View style={styles.logoContainer}>
+                <Image
+                    style={styles.logo}
+                    source={require('./Smart.png')}
+                />
+            </View>
+            <Text style={styles.header}>
+                {' '}
+                 {this.state.name}
+            </Text>
+            <View style={styles.buttonContainer} >
+             <TouchableOpacity
+            
+             onPress={() => this.connect()}>
+             <Text style={styles.buttonText}>Connect</Text>
+             </TouchableOpacity>                
+               
+
+             <TouchableOpacity
+             style={styles.buttonContainer}
+             onPress={() => this.turnon()}>
+             <Text style={styles.buttonText}>Turn on lights</Text>
+             </TouchableOpacity> 
+             
+             <TouchableOpacity
+             style={styles.buttonContainer}
+             onPress={() => this.turnoff()}>
+             <Text style={styles.buttonText}>Turn off lights</Text>
+               </TouchableOpacity> 
+                
+             <TouchableOpacity
+             style={styles.buttonContainer}
+             onPress={() => this.motion()}>
+             <Text style={styles.buttonText}>Detect motion in my room</Text>
+             </TouchableOpacity> 
+            
+
+
+            </View>
+        </KeyboardAvoidingView>
                 
 
-                <View><Text style={styles.header}>{this.state.name}</Text></View>
-                
-                <View style={styles.buttonContainer} >
-                 <TouchableOpacity
-                
-                 onPress={() => this.connect()}>
-                 <Text style={styles.buttonText}>Connect</Text>
-                 </TouchableOpacity>                
-                   
-
-                 <TouchableOpacity
-                 style={styles.buttonContainer}
-                 onPress={() => this.turnon()}>
-                 <Text style={styles.buttonText}>Turn on lights</Text>
-                 </TouchableOpacity> 
-                 
-                 <TouchableOpacity
-                 style={styles.buttonContainer}
-                 onPress={() => this.turnoff()}>
-                 <Text style={styles.buttonText}>Turn off lights</Text>
-                   </TouchableOpacity> 
-                    
-                 <TouchableOpacity
-                 style={styles.buttonContainer}
-                 onPress={() => this.motion()}>
-                 <Text style={styles.buttonText}>Detect motion in my room</Text>
-                 </TouchableOpacity> 
-                
-                </View>
-                </View>
         )
     }
 }
@@ -137,7 +143,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    formContainer: {},
+
     logoContainer: {
         alignItems: 'center',
         flexGrow: 1,
@@ -155,19 +161,12 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         fontWeight: '700'
     },
-    input: {
-        height: 40,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        backgroundColor: '#E0FFFF',
-        color: '#C71585',
-        paddingHorizontal: 10,
-        width: 200,
-        textAlign: 'center'
-    },
+
     buttonContainer: {
-        backgroundColor: '#C71585',
-        paddingVertical: 15
+        margin:10,
+        borderRadius: 10,    
+        backgroundColor: '#87CEFA',
+        padding:10
     },
     buttonText: {
         textAlign: 'center',

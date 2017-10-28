@@ -4,6 +4,7 @@ import {
     View,
     Text,
     Image,
+    KeyboardAvoidingView,
     TouchableOpacity
    
 } from 'react-native';
@@ -46,17 +47,20 @@ export default class Main extends React.Component {
 
     render() {
         return (
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            
                 <View style={styles.logoContainer}>
                     <Image
                         style={styles.logo}
                         source={require('./Smart.png')}
                     />
-                
+                    </View>
+
                      <Text style={styles.header}>
                     {' '}
                  	{this.state.name}
-                </Text>
-                </View>
+                        </Text>
+                
                
                 <View style={styles.buttonContainer} >
                             
@@ -67,6 +71,8 @@ export default class Main extends React.Component {
                     </TouchableOpacity> 
 
                 </View>
+                </KeyboardAvoidingView>
+
             
         )
     }
