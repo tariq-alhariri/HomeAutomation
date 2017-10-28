@@ -3,17 +3,70 @@ import {
     StyleSheet,
     View,
     Text,
-    Image,
-    TouchableOpacity,
-    TextInput,
-    Button,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Image
+
+    
 } from 'react-native';
-export default class Login extends React.Component {
-	constructor(props) {
-        super(props);
+
+export default class Profile extends React.Component {
+       static navigationOptions={
+        tabBarLabel:'Profile'
     }
-    render(){
-    	<Text>hello profile</Text>
+    constructor(props) {
+        super(props);
+
+    }
+
+
+
+    render() {
+        return (
+            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            
+                <View style={styles.logoContainer}>
+                    <Image
+                        style={styles.logo}
+                        source={require('./Smart.png')}
+                    />
+                    </View>
+
+               
+                <Text style={styles.header}>
+                    
+                    setting hereeee but not ready yet
+                </Text>
+
+                </KeyboardAvoidingView>
+
+            
+        )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#87CEFA',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    logoContainer: {
+        alignItems: 'center',
+        flexGrow: 1,
+        justifyContent: 'center'
+    },
+
+    logo: {
+        width: 200,
+        height: 200
+    },
+    header: {
+        color: '#fff',
+        marginTop: 5,
+        textAlign: 'center',
+        opacity: 0.8,
+        fontWeight: '700'
+    }
+});
