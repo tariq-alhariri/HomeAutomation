@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView,
     Alert
 } from 'react-native';
-
+import SpeechAndroid from 'react-native-android-voice';
 
 
 export default class Controle extends React.Component {
@@ -24,8 +24,44 @@ export default class Controle extends React.Component {
        	name:"",
        	turnon:"",
        	connect:"",
-        motion:""
+        motion:"",
+        text:""
        }
+    }
+    async speak(){
+    try{
+        //More Locales will be available upon release.
+        var spokenText = await SpeechAndroid.startSpeech("Hello", SpeechAndroid.ENGLISH);
+        //setTimeout(function(){ alert("kokokoko"); }, 3000);
+        //ToastAndroid.show(spokenText , ToastAndroid.LONG);
+        this.state.text=spokenText
+        var a = this.state.text.search("turn");
+        var b = this.state.text.search("on");
+        var c = this.state.text.search("off");
+        if(a !==-1 && b!==-1){
+          this.turnon();
+        }
+        else if(a !==-1 && c!==-1){
+          this.turnoff();
+        }else{
+          Alert.alert("Try again!")
+        }
+
+
+    }catch(error){
+        switch(error){
+            case SpeechAndroid.E_VOICE_CANCELLED:
+                ToastAndroid.show("Voice Recognizer cancelled" , ToastAndroid.LONG);
+                break;
+            case SpeechAndroid.E_NO_MATCH:
+                ToastAndroid.show("No match for what you said" , ToastAndroid.LONG);
+                break;
+            case SpeechAndroid.E_SERVER_ERROR:
+                ToastAndroid.show("Google Server Error" , ToastAndroid.LONG);
+                break;
+            /*And more errors that will be documented on Docs upon release*/
+        }
+    }
     }
     //detect motion 
     async motion() {
@@ -124,6 +160,12 @@ export default class Controle extends React.Component {
              style={styles.buttonContainer}
              onPress={() => this.motion()}>
              <Text style={styles.buttonText}>Detect motion in my room</Text>
+             </TouchableOpacity> 
+
+             <TouchableOpacity
+             style={styles.buttonContainer}
+             onPress={() => this.speak()}>
+             <Text style={styles.buttonText}>Talk to your home</Text>
              </TouchableOpacity> 
             
 
