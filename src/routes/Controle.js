@@ -11,13 +11,20 @@ import {
     Alert
 } from 'react-native';
 import SpeechAndroid from 'react-native-android-voice';
+import { Icon} from 'react-native-elements'; 
 
 const tts = require('react-native-android-speech')
 export default class Controle extends React.Component {
         static navigationOptions={
-        tabBarLabel:'Controle'
+            header:null,
+        tabBarLabel:'Controle',
+        tabBarIcon:()=> {
+            return <Icon name="list" size={25} color={"white"}/>
+        }
+         
+        
     }
-    constructor(props) {
+        constructor(props) {
         super(props)
        this.state={
        	init:this.getCureentUser(),
@@ -121,7 +128,7 @@ export default class Controle extends React.Component {
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.8.103:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
@@ -140,16 +147,16 @@ export default class Controle extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.8.103:8000/user');
+			     let response = await fetch('http://192.168.2.46:8000/user');
 			     let responseJson = await response.json();
-			     this.setState({name:responseJson})
+			     this.setState({name:responseJson.name})
 		   } catch(error) {
 		     console.error(error);
 		     }
-    } 
+     } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/connect');
+			     let response = await fetch('http://192.168.2.46:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -161,7 +168,7 @@ export default class Controle extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/on');
+			     let response = await fetch('http://192.168.2.46:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -170,7 +177,7 @@ export default class Controle extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/off');
+			     let response = await fetch('http://192.168.2.46:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
