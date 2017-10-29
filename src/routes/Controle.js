@@ -11,16 +11,24 @@ import {
     Alert
 } from 'react-native';
 import SpeechAndroid from 'react-native-android-voice';
+import { Icon} from 'react-native-elements'; 
 
-
+const tts = require('react-native-android-speech')
 export default class Controle extends React.Component {
         static navigationOptions={
-        tabBarLabel:'Controle'
+            header:null,
+        tabBarLabel:'Controle',
+        tabBarIcon:()=> {
+            return <Icon name="list" size={25} color={"white"}/>
+        }
+         
+        
     }
-    constructor(props) {
+        constructor(props) {
         super(props)
        this.state={
        	init:this.getCureentUser(),
+        wellcome:this.welcome(),
        	name:"",
        	turnon:"",
        	connect:"",
@@ -31,7 +39,7 @@ export default class Controle extends React.Component {
     async speak(){
     try{
         //More Locales will be available upon release.
-        var spokenText = await SpeechAndroid.startSpeech("Hello", SpeechAndroid.ENGLISH);
+        var spokenText = await SpeechAndroid.startSpeech("Speak now", SpeechAndroid.ENGLISH);
         //setTimeout(function(){ alert("kokokoko"); }, 3000);
         //ToastAndroid.show(spokenText , ToastAndroid.LONG);
         this.state.text=spokenText
@@ -39,11 +47,50 @@ export default class Controle extends React.Component {
         var b = this.state.text.search("on");
         var c = this.state.text.search("off");
         if(a !==-1 && b!==-1){
+            tts.speak({
+    text:'your fan turned on', // Mandatory
+    pitch:1.5, // Optional Parameter to set the pitch of Speech,
+    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
+    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
+    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
+}).then(isSpeaking=>{
+    //Success Callback
+    console.log(isSpeaking);
+}).catch(error=>{
+    //Errror Callback
+    console.log(error)
+});
           this.turnon();
         }
         else if(a !==-1 && c!==-1){
+            tts.speak({
+    text:'your fan turned off', // Mandatory
+    pitch:1.5, // Optional Parameter to set the pitch of Speech,
+    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
+    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
+    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
+}).then(isSpeaking=>{
+    //Success Callback
+    console.log(isSpeaking);
+}).catch(error=>{
+    //Errror Callback
+    console.log(error)
+});
           this.turnoff();
         }else{
+            tts.speak({
+    text:'i can not understand', // Mandatory
+    pitch:1.5, // Optional Parameter to set the pitch of Speech,
+    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
+    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
+    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
+}).then(isSpeaking=>{
+    //Success Callback
+    console.log(isSpeaking);
+}).catch(error=>{
+    //Errror Callback
+    console.log(error)
+});
           Alert.alert("Try again!")
         }
 
@@ -64,9 +111,24 @@ export default class Controle extends React.Component {
     }
     }
     //detect motion 
+    welcome() {
+        tts.speak({
+    text:'welcome to home automation system , how can i help you', // Mandatory
+    pitch:1.5, // Optional Parameter to set the pitch of Speech,
+    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
+    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
+    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
+}).then(isSpeaking=>{
+    //Success Callback
+    console.log(isSpeaking);
+}).catch(error=>{
+    //Errror Callback
+    console.log(error)
+});
+    }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.8.103:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
@@ -85,16 +147,16 @@ export default class Controle extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.8.103:8000/user');
+			     let response = await fetch('http://192.168.2.46:8000/user');
 			     let responseJson = await response.json();
-			     this.setState({name:responseJson})
+			     this.setState({name:responseJson.name})
 		   } catch(error) {
 		     console.error(error);
 		     }
-    } 
+     } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/connect');
+			     let response = await fetch('http://192.168.2.46:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -106,7 +168,7 @@ export default class Controle extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/on');
+			     let response = await fetch('http://192.168.2.46:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -115,7 +177,7 @@ export default class Controle extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.8.103:8000/off');
+			     let response = await fetch('http://192.168.2.46:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
