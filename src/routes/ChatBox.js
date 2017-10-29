@@ -8,10 +8,15 @@ import {
 
     
 } from 'react-native';
+import { Icon} from 'react-native-elements'; 
 
 export default class ChatBox extends React.Component {
-       static navigationOptions={
-        tabBarLabel:'ChatBox'
+           static navigationOptions={
+        header: null,     
+        tabBarLabel:'ChatBox',
+        tabBarIcon:()=> {
+            return <Icon name="chat" size={25} color={"white"}/>
+        }
     }
     constructor(props) {
         super(props);
