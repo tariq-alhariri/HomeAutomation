@@ -15,11 +15,22 @@ export default class Profile extends React.Component {
     }
     constructor(props) {
         super(props);
+        this.state={
+             init:this.getCureentUser()
+         }
 
     }
 
 
-
+        async getCureentUser() {
+        try {
+                 let response = await fetch('http://192.168.1.17:8080/user');
+                 let responseJson = await response.json();
+                 this.setState({image:responseJson.image})
+           } catch(error) {
+             console.error(error);
+             }
+    } 
     render() {
         return (
             <KeyboardAvoidingView behavior="padding" style={styles.container}>
@@ -35,7 +46,10 @@ export default class Profile extends React.Component {
                 <Text style={styles.header}>
                     
                     setting hereeee but not ready yet
-                </Text>
+                </Text> 
+                <View>
+                <Image source={{uri: this.state.image}} style={{width: 60, height: 60}} />
+                </View>
 
                 </KeyboardAvoidingView>
 
@@ -70,3 +84,5 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     }
 });
+
+
