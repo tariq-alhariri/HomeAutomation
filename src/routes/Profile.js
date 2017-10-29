@@ -25,14 +25,15 @@ export default class Profile extends React.Component {
         this.state={
              init:this.getCureentUser(),
                  name:"",
-                 logout : ""
+                 logout : "",
+                 image:"a"
          }
 
     }
             //logout
         async logout() {
             try {
-                     let response = await fetch('http://192.168.8.103:8000/logout');
+                     let response = await fetch('http://192.168.2.46:8000/logout');
                      let responseJson = await response.json();
                      this.setState({logout:responseJson})
                      return this.props.changeV('Login');
@@ -44,7 +45,7 @@ export default class Profile extends React.Component {
 
         async getCureentUser() {
         try {
-                 let response = await fetch('http://192.168.1.17:8080/user');
+                 let response = await fetch('http://192.168.2.46:8000/user');
                  let responseJson = await response.json();
                  this.setState({image:responseJson.image})
            } catch(error) {
