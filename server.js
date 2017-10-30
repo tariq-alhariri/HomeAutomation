@@ -218,6 +218,7 @@ app.post('/SetName',(req,res) =>{
 			throw err;
 		}
 		console.log("usename updated");
+		req.session.username=name
 		res.send();
 	})
 })
