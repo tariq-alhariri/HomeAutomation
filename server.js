@@ -117,6 +117,26 @@ app.get('/off',(req,res)=>{
 
 	res.send(JSON.stringify('off'))
 })
+
+// Get the tempreturre from the sensor 
+app.get('/temp',(req,res) =>{
+    var buf= new Buffer('t', 'utf-8')
+    var x="tempretute";
+    console.log("tempretute")
+    connect.write(new Buffer(buf),function(){
+        connect.on('data', (buffer) => {
+          
+        console.log("temp")
+        buf=buffer.toString('utf-8')
+    console.log(buf);
+ });
+    });
+setTimeout(function(){
+    console.log("temp",buf.toString("utf-8"));
+    return res.json(buf.toString("utf-8"))
+}, 1000);
+})
+
 //signup user
 app.post('/signup',(req,res)=>{
 	console.log("comming data =======>", req.body.user)
@@ -135,7 +155,7 @@ app.post('/signup',(req,res)=>{
 
 		bcrypt.hash(req.body.user.password, null, null, function(err, hash){
 		//else insert it into database
-		var sql="insert into user (name,password) values ('"+req.body.user.username+"','"+hash+"');";
+		var sql="insert into user (name,password,image) values ('"+req.body.user.username+"','"+hash+"','"+req.body.user.image+"');";
 		db.query(sql,function(err,result){
 			if(err){
 				throw err
@@ -185,9 +205,44 @@ app.get('/logout', function(req,res){
       res.send(JSON.stringify("ended"))
       })
 })
+// return user info
 app.get('/user',(req,res) =>{
-	return res.send(JSON.stringify(req.session.username))
+	var sql="select * from user where name='"+req.session.username+"';"
+	db.query(sql,(err,result)=>{
+		if(err){
+			throw err;
+		}
+		return res.send(JSON.stringify(result[0]))
+	})
+	
 })
+//update the image in database
+app.post('/SetNewImage',(req,res) =>{
+	var name=req.body.user.name;
+	var image=req.body.user.image;
+	var sql="update user set image='"+image+"' where name='"+name+"';"
+	db.query(sql,(err,result)=>{
+		if(err){
+			throw err;
+		}
+		console.log("image updated");
+		res.send();
+	})
+})
+//update the user name in database 
+app.post('/SetName',(req,res) =>{
+	var name=req.body.user.name;
+	var sql="update user set name='"+name+"' where name='"+req.session.username+"';"
+	db.query(sql,(err,result)=>{
+		if(err){
+			throw err;
+		}
+		console.log("usename updated");
+		req.session.username=name
+		res.send();
+	})
+})
+
 //specify port number
 var port = process.env.PORT||8000;
 //run the server 
