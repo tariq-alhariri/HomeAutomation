@@ -117,6 +117,26 @@ app.get('/off',(req,res)=>{
 
 	res.send(JSON.stringify('off'))
 })
+
+// Get the tempreturre from the sensor 
+app.get('/temp',(req,res) =>{
+    var buf= new Buffer('t', 'utf-8')
+    var x="tempretute";
+    console.log("tempretute")
+    connect.write(new Buffer(buf),function(){
+        connect.on('data', (buffer) => {
+          
+        console.log("temp")
+        buf=buffer.toString('utf-8')
+    console.log(buf);
+ });
+    });
+setTimeout(function(){
+    console.log("temp",buf.toString("utf-8"));
+    return res.json(buf.toString("utf-8"))
+}, 1000);
+})
+
 //signup user
 app.post('/signup',(req,res)=>{
 	console.log("comming data =======>", req.body.user)
