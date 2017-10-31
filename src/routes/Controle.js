@@ -45,7 +45,7 @@ export default class Controle extends React.Component {
         this.state.text=spokenText
         var a = this.state.text.search("turn");
         var b = this.state.text.search("on");
-        var c = this.state.text.search("off");
+        var c = this.state.text.search("off");  
         if(a !==-1 && b!==-1){
             tts.speak({
                 text:'your fan turned on', 
@@ -127,7 +127,7 @@ export default class Controle extends React.Component {
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.2.46:8000/motion');
+                 let response = await fetch('http://192.168.8.143:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
@@ -172,7 +172,7 @@ export default class Controle extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.2.46:8000/user');
+			     let response = await fetch('http://192.168.8.143:8000/user');
 			     let responseJson = await response.json();
 			     this.setState({name:responseJson.name})
 		   } catch(error) {
@@ -181,7 +181,7 @@ export default class Controle extends React.Component {
      } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/connect');
+			     let response = await fetch('http://192.168.8.143:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -193,7 +193,7 @@ export default class Controle extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/on');
+			     let response = await fetch('http://192.168.8.143:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -202,7 +202,7 @@ export default class Controle extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/off');
+			     let response = await fetch('http://192.168.8.143:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
