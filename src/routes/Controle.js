@@ -172,7 +172,7 @@ export default class Controle extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.8.143:8000/user');
+			     let response = await fetch('https://home99.herokuapp.com/user');
 			     let responseJson = await response.json();
 			     this.setState({name:responseJson.name})
 		   } catch(error) {
