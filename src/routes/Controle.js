@@ -33,9 +33,59 @@ export default class Controle extends React.Component {
        	turnon:"",
        	connect:"",
         motion:"",
-        text:""
+        text:"",
+        temp:"",
+        getTemp:this.temp(),
+        autoDetect:this.autoDetect()
        }
     }
+    //motion auto detection
+    autoDetect(){
+        setInterval(async function(){
+            try {
+
+                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let responseJson = await response.json();
+                 if(responseJson=='y'){
+                    Alert.alert("Warrning there is motion in your room")
+                 }
+           } catch(error) {
+             console.error(error);
+             }
+        },2000);
+    }
+// Read the temperature
+     temp() {
+        var x=this
+        setInterval(async function(){
+            try {
+
+                 let response = await fetch('http://192.168.8.143:8000/temp');
+
+                 let responseJson = await response.json();
+
+                   // Alert.alert(typeof(responseJson));
+
+                  x.setState({temp:responseJson});
+                 //var x=JSON.parse(responseJson)
+                // this.state.temp=responseJson
+
+               //  res=JSON.parse(res)
+
+           } catch(error) {
+
+             console.error(error);
+
+             }
+
+        },10000);
+        
+
+    } 
+
+
+
+
     async speak(){
     try{
         //More Locales will be available upon release.
@@ -218,6 +268,7 @@ export default class Controle extends React.Component {
                     style={styles.logo}
                     source={require('./Smart.png')}
                 />
+
             </View>
             <Text style={styles.header}>
                 {' '}
@@ -248,7 +299,7 @@ export default class Controle extends React.Component {
              onPress={() => this.motion()}>
              <Text style={styles.buttonText}>Detect motion in my room</Text>
              </TouchableOpacity> 
-
+                <Text>{this.state.temp}</Text>
              <TouchableOpacity
              style={styles.buttonContainer}
              onPress={() => this.speak()}>
