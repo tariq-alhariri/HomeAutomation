@@ -33,9 +33,59 @@ export default class Controle extends React.Component {
        	turnon:"",
        	connect:"",
         motion:"",
-        text:""
+        text:"",
+        temp:"",
+        getTemp:this.temp(),
+        autoDetect:this.autoDetect()
        }
     }
+    //motion auto detection
+    autoDetect(){
+        setInterval(async function(){
+            try {
+
+                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let responseJson = await response.json();
+                 if(responseJson=='y'){
+                    Alert.alert("Warrning there is motion in your room")
+                 }
+           } catch(error) {
+             console.error(error);
+             }
+        },2000);
+    }
+// Read the temperature
+     temp() {
+        var x=this
+        setInterval(async function(){
+            try {
+
+                 let response = await fetch('http://192.168.8.143:8000/temp');
+
+                 let responseJson = await response.json();
+
+                   // Alert.alert(typeof(responseJson));
+
+                  x.setState({temp:responseJson});
+                 //var x=JSON.parse(responseJson)
+                // this.state.temp=responseJson
+
+               //  res=JSON.parse(res)
+
+           } catch(error) {
+
+             console.error(error);
+
+             }
+
+        },10000);
+        
+
+    } 
+
+
+
+
     async speak(){
     try{
         //More Locales will be available upon release.
@@ -45,52 +95,52 @@ export default class Controle extends React.Component {
         this.state.text=spokenText
         var a = this.state.text.search("turn");
         var b = this.state.text.search("on");
-        var c = this.state.text.search("off");
+        var c = this.state.text.search("off");  
         if(a !==-1 && b!==-1){
             tts.speak({
-    text:'your fan turned on', // Mandatory
-    pitch:1.5, // Optional Parameter to set the pitch of Speech,
-    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
-    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
-    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
-}).then(isSpeaking=>{
+                text:'your fan turned on', 
+                pitch:1.5, 
+                forceStop : false , 
+                language : 'en', 
+                country : 'US' 
+            }).then(isSpeaking=>{
     //Success Callback
-    console.log(isSpeaking);
-}).catch(error=>{
+                 console.log(isSpeaking);
+            }).catch(error=>{
     //Errror Callback
-    console.log(error)
-});
+                 console.log(error)
+            });
           this.turnon();
         }
         else if(a !==-1 && c!==-1){
             tts.speak({
-    text:'your fan turned off', // Mandatory
-    pitch:1.5, // Optional Parameter to set the pitch of Speech,
-    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
-    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
-    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
-}).then(isSpeaking=>{
+                text:'your fan turned off', 
+                pitch:1.5, 
+                forceStop : false , 
+                language : 'en', 
+                country : 'US' 
+            }).then(isSpeaking=>{
     //Success Callback
-    console.log(isSpeaking);
-}).catch(error=>{
+                console.log(isSpeaking);
+        }).catch(error=>{
     //Errror Callback
-    console.log(error)
-});
+             console.log(error)
+        });
           this.turnoff();
         }else{
             tts.speak({
-    text:'i can not understand', // Mandatory
-    pitch:1.5, // Optional Parameter to set the pitch of Speech,
-    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
-    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
-    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
-}).then(isSpeaking=>{
+                text:'i can not understand', 
+                pitch:1.5, 
+                forceStop : false , 
+                language : 'en', 
+                country : 'US' 
+            }).then(isSpeaking=>{
     //Success Callback
-    console.log(isSpeaking);
-}).catch(error=>{
+                 console.log(isSpeaking);
+            }).catch(error=>{
     //Errror Callback
-    console.log(error)
-});
+                  console.log(error)
+            });
           Alert.alert("Try again!")
         }
 
@@ -106,36 +156,61 @@ export default class Controle extends React.Component {
             case SpeechAndroid.E_SERVER_ERROR:
                 ToastAndroid.show("Google Server Error" , ToastAndroid.LONG);
                 break;
-            /*And more errors that will be documented on Docs upon release*/
         }
     }
     }
     //detect motion 
     welcome() {
         tts.speak({
-    text:'welcome to home automation system , how can i help you', // Mandatory
-    pitch:1.5, // Optional Parameter to set the pitch of Speech,
-    forceStop : false , //  Optional Parameter if true , it will stop TTS if it is already in process
-    language : 'en', // Optional Paramenter Default is en you can provide any supported lang by TTS
-    country : 'US' // Optional Paramenter Default is null, it provoques that system selects its default
-}).then(isSpeaking=>{
+            text:'welcome to home automation system , how can i help you',
+            pitch:1.5, 
+            forceStop : false , 
+            language : 'en', 
+            country : 'US' 
+    }).then(isSpeaking=>{
     //Success Callback
     console.log(isSpeaking);
-}).catch(error=>{
+    }).catch(error=>{
     //Errror Callback
     console.log(error)
-});
+    });
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.2.46:8000/motion');
+                 let response = await fetch('http://192.168.8.143:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
                  if(responseJson=='n'){
                     Alert.alert("No motion in room")
+                    tts.speak({
+                        text:'No motion in your room', 
+                        pitch:1.5, 
+                        forceStop : false , 
+                        language : 'en', 
+                        country : 'US' 
+                    }).then(isSpeaking=>{
+                        //Success Callback
+                        console.log(isSpeaking);
+                   }).catch(error=>{
+                     //Errror Callback
+                     console.log(error)
+                      });
                  }else{
-                    Alert.alert("there is motion in room ")
+                    Alert.alert("there is motion in room");
+                    tts.speak({
+                        text:'there is motion in your room', 
+                        pitch:1.5, 
+                        forceStop : false , 
+                        language : 'en', 
+                        country : 'US' 
+                    }).then(isSpeaking=>{
+                        //Success Callback
+                        console.log(isSpeaking);
+                   }).catch(error=>{
+                     //Errror Callback
+                     console.log(error)
+                      });
                  }
                  this.setState({motion:responseJson})
                //  res=JSON.parse(res)
@@ -147,7 +222,7 @@ export default class Controle extends React.Component {
     //get current user
     async getCureentUser() {
 	    try {
-			     let response = await fetch('http://192.168.2.46:8000/user');
+			     let response = await fetch('https://home99.herokuapp.com/user');
 			     let responseJson = await response.json();
 			     this.setState({name:responseJson.name})
 		   } catch(error) {
@@ -156,7 +231,7 @@ export default class Controle extends React.Component {
      } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/connect');
+			     let response = await fetch('http://192.168.8.143:8000/connect');
 			     let responseJson = await response.json();
 			     if(responseJson){
 			     	Alert.alert("Connected")
@@ -168,7 +243,7 @@ export default class Controle extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/on');
+			     let response = await fetch('http://192.168.8.143:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -177,7 +252,7 @@ export default class Controle extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.2.46:8000/off');
+			     let response = await fetch('http://192.168.8.143:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
@@ -193,6 +268,7 @@ export default class Controle extends React.Component {
                     style={styles.logo}
                     source={require('./Smart.png')}
                 />
+
             </View>
             <Text style={styles.header}>
                 {' '}
@@ -223,7 +299,7 @@ export default class Controle extends React.Component {
              onPress={() => this.motion()}>
              <Text style={styles.buttonText}>Detect motion in my room</Text>
              </TouchableOpacity> 
-
+                <Text>{this.state.temp}</Text>
              <TouchableOpacity
              style={styles.buttonContainer}
              onPress={() => this.speak()}>

@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-prompt-android')
     compile project(':react-native-vector-icons')
     compile project(':react-native-maps')
     compile fileTree(dir: "libs", include: ["*.jar"])
@@ -145,6 +146,7 @@ dependencies {
     compile project(':RNPermissionsModule')
     compile project(':VoiceModule')
     compile project(':react-native-android-speech')
+    compile project(':react-native-image-picker')
 }
 
 
