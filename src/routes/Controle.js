@@ -34,7 +34,7 @@ export default class Controle extends React.Component {
        	connect:"",
         motion:"",
         text:"",
-        temp:"",
+        temp:"20",
         getTemp:this.temp(),
         autoDetect:this.autoDetect()
        }
@@ -44,7 +44,7 @@ export default class Controle extends React.Component {
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  if(responseJson=='y'){
                     Alert.alert("Warrning there is motion in your room")
@@ -60,12 +60,17 @@ export default class Controle extends React.Component {
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/temp');
+                 let response = await fetch('http://192.168.2.46:8000/temp');
 
                  let responseJson = await response.json();
 
                    // Alert.alert(typeof(responseJson));
-
+                   if(responseJson=="p"){
+                        Alert.alert("please connect first")
+                   }
+                   if(responseJson=="p" ||responseJson=='y' || responseJson=='t' ||responseJson=='n' ){
+                        responseJson=''
+                   }
                   x.setState({temp:responseJson});
                  //var x=JSON.parse(responseJson)
                 // this.state.temp=responseJson
@@ -177,7 +182,7 @@ export default class Controle extends React.Component {
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
@@ -231,11 +236,16 @@ export default class Controle extends React.Component {
      } 
      async connect(){
     	 try {
-			     let response = await fetch('http://192.168.8.143:8000/connect');
+			     let response = await fetch('http://192.168.2.46:8000/connect');
 			     let responseJson = await response.json();
-			     if(responseJson){
-			     	Alert.alert("Connected")
-			     }
+                 if(responseJson=="already connected"){
+                    Alert.alert("you already connected")
+                 }else{
+                    Alert.alert("Connected")
+                 }
+			     // if(responseJson){
+			     // 	Alert.alert("Connected")
+			     // }
 			   
 		   } catch(error) {
 		     console.error(error);
@@ -243,7 +253,7 @@ export default class Controle extends React.Component {
     }
     async turnon(){
     	 try {
-			     let response = await fetch('http://192.168.8.143:8000/on');
+			     let response = await fetch('http://192.168.2.46:8000/on');
 			     let responseJson = await response.json();
 			   
 		   } catch(error) {
@@ -252,7 +262,7 @@ export default class Controle extends React.Component {
     }
     async turnoff(){
     	 try {
-			     let response = await fetch('http://192.168.8.143:8000/off');
+			     let response = await fetch('http://192.168.2.46:8000/off');
 			     let responseJson = await response.json();
 			    
 		   } catch(error) {
