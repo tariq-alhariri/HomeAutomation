@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bluetooth = require('node-bluetooth');
 var bodyParser = require('body-parser');
-
+require('events').EventEmitter.prototype._maxListeners = 100;
 app.use(function (req, res, next) {
 
    // Website you wish to allow to connect
@@ -52,6 +52,9 @@ app.get('/scan',(req,res) =>{
 // connect to bluetooth device
 var connect;
 app.get('/connect',(req,res)=>{
+  if(connect!==undefined){
+    return res.send(JSON.stringify('already connected'));
+  }
   bluetooth.connect('98-d3-31-b3-12-a1',1,(err,connection)=>{
     if(err){
       throw err
@@ -70,6 +73,10 @@ app.get('/connect',(req,res)=>{
 
 // handle motion sensor
 app.get('/motion',(req,res) =>{
+  if(connect==undefined){
+    console.log("please connect first")
+    return res.send(JSON.stringify("p"))
+  }
   var buf= new Buffer('d', 'utf-8')
   var x="dd";
   console.log("motion")
@@ -103,6 +110,10 @@ app.get('/motion',(req,res) =>{
 
 // Get the tempreturre from the sensor 
 app.get('/temp',(req,res) =>{
+  if(connect==undefined){
+    console.log("please connect first")
+    return res.send(JSON.stringify("p"))
+  }
     var buf= new Buffer('t', 'utf-8')
     var x="tempretute";
     console.log("tempretute")
