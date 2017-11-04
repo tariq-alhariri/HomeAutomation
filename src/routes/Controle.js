@@ -238,14 +238,16 @@ export default class Controle extends React.Component {
              }
      } 
      async connect(){
-         try {
-                 let response = await fetch('http://192.168.2.46:8000/connect');
-                 let responseJson = await response.json();
+    	 try {
+			     let response = await fetch('http://192.168.2.46:8000/connect');
+			     let responseJson = await response.json();
+
                  if(responseJson=="already connected"){
                     Alert.alert("you already connected")
                  }else{
                     Alert.alert("Connected")
                  }
+
                  // if(responseJson){
                  //     Alert.alert("Connected")
                  // }
@@ -271,6 +273,7 @@ export default class Controle extends React.Component {
            } catch(error) {
              console.error(error);
              }
+
     }
 
     render() {
