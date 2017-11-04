@@ -232,18 +232,15 @@ export default class Controle extends React.Component {
              console.error(error);
              }
      } 
-     async connect(){
-    	 try {
-			     let response = await fetch('http://192.168.8.143:8000/connect');
-			     let responseJson = await response.json();
-<<<<<<< .merge_file_GONtJA
-
-                 if(responseJson=="already connected"){
-                    Alert.alert("you already connected")
-                 }else{
-                    Alert.alert("Connected")
-                 }
-
+async connect(){
+        try {
+                 let response = await fetch('http://192.168.2.46:8000/connect');
+                 let responseJson = await response.json();
+                if(responseJson=="already connected"){
+                   Alert.alert("you already connected")
+                }else{
+                   Alert.alert("Connected")
+                }
                  // if(responseJson){
                  //     Alert.alert("Connected")
                  // }
@@ -251,53 +248,25 @@ export default class Controle extends React.Component {
            } catch(error) {
              console.error(error);
              }
-    }
-    async turnon(){
-         try {
+   }
+   async turnon(){
+        try {
                  let response = await fetch('http://192.168.2.46:8000/on');
                  let responseJson = await response.json();
                
            } catch(error) {
              console.error(error);
              }
-    }
-    async turnoff(){
-         try {
+   }
+   async turnoff(){
+        try {
                  let response = await fetch('http://192.168.2.46:8000/off');
                  let responseJson = await response.json();
                 
            } catch(error) {
              console.error(error);
              }
-
-=======
-			     if(responseJson){
-			     	Alert.alert("Connected")
-			     }
-			   
-		   } catch(error) {
-		     console.error(error);
-		     }
-    }
-    async turnon(){
-    	 try {
-			     let response = await fetch('http://192.168.8.143:8000/on');
-			     let responseJson = await response.json();
-			   
-		   } catch(error) {
-		     console.error(error);
-		     }
-    }
-    async turnoff(){
-    	 try {
-			     let response = await fetch('http://192.168.8.143:8000/off');
-			     let responseJson = await response.json();
-			    
-		   } catch(error) {
-		     console.error(error);
-		     }
->>>>>>> .merge_file_CFdzhl
-    }
+   }
 
     render() {
         return (
