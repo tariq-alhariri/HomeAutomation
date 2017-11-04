@@ -14,9 +14,12 @@ export default class ChatBox extends React.Component {
            static navigationOptions={
         header: null,     
         tabBarLabel:'ChatBox',
-        tabBarIcon:()=> {
-            return <Icon name="chat" size={25} color={"white"}/>
-        }
+        tabBarIcon:({tintColor}) => (
+        <Image source={require('./icon/cha.png')}
+         style={{width:24, height:24, tintColor:'white'}}>
+        </Image>
+       ) 
+
     }
     constructor(props) {
         super(props);

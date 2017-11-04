@@ -5,6 +5,7 @@ import {
     Text,
     Image,
     TouchableOpacity,
+    TouchableHighlight,
     TextInput,
     Button,
     KeyboardAvoidingView,
@@ -18,20 +19,22 @@ export default class Controle extends React.Component {
         static navigationOptions={
             header:null,
         tabBarLabel:'Controle',
-        tabBarIcon:()=> {
-            return <Icon name="list" size={25} color={"white"}/>
-        }
+        tabBarIcon:({tintColor}) => (
+        <Image source={require('./icon/control.png')}
+         style={{width:24, height:24, tintColor:'white'}}>
+        </Image>
+       ) 
          
         
     }
         constructor(props) {
         super(props)
        this.state={
-       	init:this.getCureentUser(),
+        init:this.getCureentUser(),
         wellcome:this.welcome(),
-       	name:"",
-       	turnon:"",
-       	connect:"",
+        name:"",
+        turnon:"",
+        connect:"",
         motion:"",
         text:"",
         temp:"20",
@@ -226,70 +229,75 @@ export default class Controle extends React.Component {
 
     //get current user
     async getCureentUser() {
-	    try {
-			     let response = await fetch('https://home99.herokuapp.com/user');
-			     let responseJson = await response.json();
-			     this.setState({name:responseJson.name})
-		   } catch(error) {
-		     console.error(error);
-		     }
+        try {
+                 let response = await fetch('https://home99.herokuapp.com/user');
+                 let responseJson = await response.json();
+                 this.setState({name:responseJson.name})
+           } catch(error) {
+             console.error(error);
+             }
      } 
      async connect(){
     	 try {
 			     let response = await fetch('http://192.168.2.46:8000/connect');
 			     let responseJson = await response.json();
+
                  if(responseJson=="already connected"){
                     Alert.alert("you already connected")
                  }else{
                     Alert.alert("Connected")
                  }
-			     // if(responseJson){
-			     // 	Alert.alert("Connected")
-			     // }
-			   
-		   } catch(error) {
-		     console.error(error);
-		     }
+
+                 // if(responseJson){
+                 //     Alert.alert("Connected")
+                 // }
+               
+           } catch(error) {
+             console.error(error);
+             }
     }
     async turnon(){
-    	 try {
-			     let response = await fetch('http://192.168.2.46:8000/on');
-			     let responseJson = await response.json();
-			   
-		   } catch(error) {
-		     console.error(error);
-		     }
+         try {
+                 let response = await fetch('http://192.168.2.46:8000/on');
+                 let responseJson = await response.json();
+               
+           } catch(error) {
+             console.error(error);
+             }
     }
     async turnoff(){
-    	 try {
-			     let response = await fetch('http://192.168.2.46:8000/off');
-			     let responseJson = await response.json();
-			    
-		   } catch(error) {
-		     console.error(error);
-		     }
+         try {
+                 let response = await fetch('http://192.168.2.46:8000/off');
+                 let responseJson = await response.json();
+                
+           } catch(error) {
+             console.error(error);
+             }
+
     }
 
     render() {
         return (
-            <KeyboardAvoidingView behavior="padding" style={styles.container}>
+            <View style={styles.container}>
+
             <View style={styles.logoContainer}>
                 <Image
                     style={styles.logo}
-                    source={require('./Smart.png')}
-                />
+                    source={require('./Smart.png')} />
 
             </View>
-            <Text style={styles.header}>
-                {' '}
-                 {this.state.name}
-            </Text>
-            <View style={styles.buttonContainer} >
-             <TouchableOpacity
-            
+                <Text style={styles.header}>
+                    Welcome: {this.state.name}
+                </Text>
+                <Text style={styles.header}>
+                the temperature now : {this.state.temp}  °C
+                </Text>
+           
+             <TouchableHighlight
+            style={styles.buttonContainer}
              onPress={() => this.connect()}>
              <Text style={styles.buttonText}>Connect</Text>
-             </TouchableOpacity>                
+             </TouchableHighlight>                
                
 
              <TouchableOpacity
@@ -309,7 +317,7 @@ export default class Controle extends React.Component {
              onPress={() => this.motion()}>
              <Text style={styles.buttonText}>Detect motion in my room</Text>
              </TouchableOpacity> 
-                <Text>{this.state.temp}</Text>
+                
              <TouchableOpacity
              style={styles.buttonContainer}
              onPress={() => this.speak()}>
@@ -318,8 +326,8 @@ export default class Controle extends React.Component {
             
 
 
-            </View>
-        </KeyboardAvoidingView>
+            
+        </View>
                 
 
         )
@@ -331,9 +339,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#87CEFA',
         alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingTop: 20,
         justifyContent: 'center'
     },
-
+    
     logoContainer: {
         alignItems: 'center',
         flexGrow: 1,
@@ -349,14 +359,20 @@ const styles = StyleSheet.create({
         marginTop: 5,
         textAlign: 'center',
         opacity: 0.8,
-        fontWeight: '700'
+        marginBottom: 10,
+        fontWeight: '700',
+        fontSize :20
     },
 
     buttonContainer: {
-        margin:10,
-        borderRadius: 10,    
-        backgroundColor: '#87CEFA',
-        padding:10
+        backgroundColor: '#94336A',
+        paddingVertical: 15,
+        marginBottom: 20,
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#4F1335',
+        height: 40,
+        width: 200
     },
     buttonText: {
         textAlign: 'center',
