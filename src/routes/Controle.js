@@ -1,3 +1,4 @@
+global.self = global;
 import React from 'react';
 import {
     StyleSheet,
@@ -48,7 +49,7 @@ export default class Controle extends React.Component {
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  if(responseJson=='y'){
                     Alert.alert("Warrning there is motion in your room")
@@ -63,9 +64,9 @@ gasAutoDetect(){
     setInterval(async function(){
         try {
 
-             let response = await fetch('http://192.168.8.131:8000/gas');
+             let response = await fetch('http://192.168.2.46:8000/gas');
              let responseJson = await response.json();
-             if(responseJson=='n'){
+             if(responseJson=='g'){
                 Alert.alert("Gas Danger")
                 tts.speak({
                     text:'There is gas leaking in the kitchen, please do not play with electricity hurry up and close the gas buttle. In emergency cases call 911. ', 
@@ -92,7 +93,7 @@ gasAutoDetect(){
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/temp');
+                 let response = await fetch('http://192.168.2.46:8000/temp');
 
                  let responseJson = await response.json();
 
@@ -209,7 +210,7 @@ gasAutoDetect(){
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  

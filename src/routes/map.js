@@ -1,3 +1,4 @@
+global.self = global;
 import React from 'react';
 import { StyleSheet, View,Image, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
