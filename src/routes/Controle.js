@@ -39,7 +39,8 @@ export default class Controle extends React.Component {
         text:"",
         temp:"",
         getTemp:this.temp(),
-        autoDetect:this.autoDetect()
+        autoDetect:this.autoDetect(),
+        gasAutoDetect:this.gasAutoDetect()
        }
     }
     //motion auto detection
@@ -57,6 +58,34 @@ export default class Controle extends React.Component {
              }
         },2000);
     }
+// Auto Gas Alarm 
+gasAutoDetect(){
+    setInterval(async function(){
+        try {
+
+             let response = await fetch('http://192.168.8.131:8000/gas');
+             let responseJson = await response.json();
+             if(responseJson=='n'){
+                Alert.alert("Gas Danger")
+                tts.speak({
+                    text:'There is gas leaking in the kitchen, please do not play with electricity hurry up and close the gas buttle. In emergency cases call 911. ', 
+                    pitch:1.5, 
+                    forceStop : false , 
+                    language : 'en', 
+                    country : 'US' 
+                }).then(isSpeaking=>{
+                    //Success Callback
+                    console.log(isSpeaking);
+               }).catch(error=>{
+                 //Errror Callback
+                 console.log(error)
+                  });
+             }
+       } catch(error) {
+         console.error(error);
+         }
+    },2000);
+}
 // Read the temperature
      temp() {
         var x=this
