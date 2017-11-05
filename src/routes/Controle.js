@@ -1,3 +1,4 @@
+global.self = global;
 import React from 'react';
 import {
     StyleSheet,
@@ -39,7 +40,8 @@ export default class Controle extends React.Component {
         text:"",
         temp:"",
         getTemp:this.temp(),
-        autoDetect:this.autoDetect()
+        autoDetect:this.autoDetect(),
+        gasAutoDetect:this.gasAutoDetect()
        }
     }
     //motion auto detection
@@ -47,7 +49,7 @@ export default class Controle extends React.Component {
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  if(responseJson=='y'){
                     Alert.alert("Warrning there is motion in your room")
@@ -57,13 +59,41 @@ export default class Controle extends React.Component {
              }
         },2000);
     }
+// Auto Gas Alarm 
+gasAutoDetect(){
+    setInterval(async function(){
+        try {
+
+             let response = await fetch('http://192.168.2.46:8000/gas');
+             let responseJson = await response.json();
+             if(responseJson=='g'){
+                Alert.alert("Gas Danger")
+                tts.speak({
+                    text:'There is gas leaking in the kitchen, please do not play with electricity hurry up and close the gas buttle. In emergency cases call 911. ', 
+                    pitch:1.5, 
+                    forceStop : false , 
+                    language : 'en', 
+                    country : 'US' 
+                }).then(isSpeaking=>{
+                    //Success Callback
+                    console.log(isSpeaking);
+               }).catch(error=>{
+                 //Errror Callback
+                 console.log(error)
+                  });
+             }
+       } catch(error) {
+         console.error(error);
+         }
+    },2000);
+}
 // Read the temperature
      temp() {
         var x=this
         setInterval(async function(){
             try {
 
-                 let response = await fetch('http://192.168.8.143:8000/temp');
+                 let response = await fetch('http://192.168.2.46:8000/temp');
 
                  let responseJson = await response.json();
 
@@ -180,7 +210,7 @@ export default class Controle extends React.Component {
     }
     async motion() {
         try {
-                 let response = await fetch('http://192.168.8.143:8000/motion');
+                 let response = await fetch('http://192.168.2.46:8000/motion');
                  let responseJson = await response.json();
                  //responseJson=JSON.parse(responseJson)
                  
