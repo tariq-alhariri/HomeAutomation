@@ -1,6 +1,6 @@
 global.self = global;
 import React from 'react';
-import { StyleSheet, View,Image, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions,Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { Icon} from 'react-native-elements'; 
 
@@ -76,10 +76,10 @@ export default class Map extends React.Component {
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
-                    //  onPress={(m) => this.setState({
-                    //   x: m.nativeEvent.coordinate.latitude ,
-                    //   y: m.nativeEvent.coordinate.longitude }) Alert.alert(x,y)}
-                    // region={this.state.initialPosition}
+                    onPress={()=> alert(JSON.stringify(this.state.initialPosition))}
+                    // onPress={(m) => this.setState({ x: m.nativeEvent.coordinate.latitude ,y: m.nativeEvent.coordinate.longitude }) Alert.alert(x,y)}
+                    region={this.state.initialPosition}
+
                 >
                     <MapView.Marker coordinate={this.state.markerPosition}>
                         <View style={styles.radius}>
