@@ -1,6 +1,8 @@
 global.self = global;
 import React from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, StyleSheet, KeyboardAvoidingView, Image,} from 'react-native';
+
+import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, StyleSheet, KeyboardAvoidingView, Image} from 'react-native';
+
 import SocketIOClient from 'socket.io-client';
 // import SocketIOClient from 'https://code.jquery.com/jquery-1.11.1.js'
 import { Icon} from 'react-native-elements'; 
@@ -30,7 +32,9 @@ constructor(props){
      msg:''
     }
 
-  this.socket = SocketIOClient('http://192.168.2.46:8000');
+
+  this.socket = SocketIOClient('https://home99.herokuapp.com/');
+
     this.socket.on('allDataBase',(data)=> {
       this.showArr(data);
     })
