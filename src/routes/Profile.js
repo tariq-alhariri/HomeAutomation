@@ -1,3 +1,4 @@
+global.self = global;
 import React from 'react';
 import {
     StyleSheet,
@@ -257,3 +258,4 @@ const styles = StyleSheet.create({
       borderColor: '#94336A'
   }
 });
+

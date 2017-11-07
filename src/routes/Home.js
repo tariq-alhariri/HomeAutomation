@@ -1,3 +1,4 @@
+global.self = global;
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { TabNavigator } from 'react-navigation';
@@ -25,7 +26,7 @@ var MainScreenNavigator = TabNavigator({
         showIcon: true,
         style: {
          
-            backgroundColor: '#b30047'
+            backgroundColor: '#94336A'
           },
           indicatorStyle: {
             backgroundColor: 'white'

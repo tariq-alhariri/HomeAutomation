@@ -1,5 +1,8 @@
+global.self = global;
 import React from 'react';
+
 import { View, Text, TouchableOpacity, TextInput, Alert, FlatList, StyleSheet, KeyboardAvoidingView, Image} from 'react-native';
+
 import SocketIOClient from 'socket.io-client';
 // import SocketIOClient from 'https://code.jquery.com/jquery-1.11.1.js'
 import { Icon} from 'react-native-elements'; 
@@ -29,7 +32,9 @@ constructor(props){
      msg:''
     }
 
+
   this.socket = SocketIOClient('https://home99.herokuapp.com/');
+
     this.socket.on('allDataBase',(data)=> {
       this.showArr(data);
     })
@@ -108,7 +113,7 @@ render(){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#87CEFA',
+        backgroundColor: '#87CEFA ',
         alignItems: 'center',
         justifyContent: 'center'
     },
