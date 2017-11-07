@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions,Image } from 'react-native';
 import MapView from 'react-native-maps';
 import { Icon} from 'react-native-elements'; 
 
@@ -13,9 +13,11 @@ export default class Map extends React.Component {
     static navigationOptions = {
         header: null,     
         tabBarLabel: 'Map',
-        tabBarIcon:()=> {
-            return <Icon  name="location-on" size={25} color={"white"}/>
-        }
+        tabBarIcon:({tintColor}) => (
+        <Image source={require('./icon/mapn.png')}
+         style={{width:24, height:24, tintColor:'white'}}>
+        </Image>
+       ) 
     };
     constructor(props) {
         super(props);
@@ -73,6 +75,7 @@ export default class Map extends React.Component {
             <View style={styles.container}>
                 <MapView
                     style={styles.map}
+                    onPress={()=> alert(JSON.stringify(this.state.initialPosition))}
                     // onPress={(m) => this.setState({ x: m.nativeEvent.coordinate.latitude ,y: m.nativeEvent.coordinate.longitude }) Alert.alert(x,y)}
                     region={this.state.initialPosition}
                 >
